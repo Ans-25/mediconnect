@@ -1,7 +1,21 @@
 package com.edutech.progressive.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+@Entity
 public class Doctor implements Comparable<Doctor>{
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int doctorId;
     private String fullName;
     private String specialty;
@@ -9,7 +23,30 @@ public class Doctor implements Comparable<Doctor>{
     private String email;
     private int yearsOfExperience;
     
+    @OneToMany(mappedBy = "doctor")
+    @JsonIgnore
+    private List<Clinic> clinics = new ArrayList<>();
+
     public Doctor() {
+    }
+
+    public Doctor(String fullName, String specialty, String contactNumber, String email, int yearsOfExperience) {
+        this.fullName = fullName;
+        this.specialty = specialty;
+        this.contactNumber = contactNumber;
+        this.email = email;
+        this.yearsOfExperience = yearsOfExperience;
+    }
+
+    public Doctor(int doctorId, String fullName, String specialty, String contactNumber, String email,
+            int yearsOfExperience, List<Clinic> clinics) {
+        this.doctorId = doctorId;
+        this.fullName = fullName;
+        this.specialty = specialty;
+        this.contactNumber = contactNumber;
+        this.email = email;
+        this.yearsOfExperience = yearsOfExperience;
+        this.clinics = clinics;
     }
 
     public Doctor(int doctorId, String fullName, String specialty, String contactNumber, String email,
@@ -75,5 +112,13 @@ public class Doctor implements Comparable<Doctor>{
         return Integer.compare(this.yearsOfExperience, o.yearsOfExperience);
     }
 
-    
+    public List<Clinic> getClinics() {
+        return clinics;
+    }
+
+    public void setClinics(List<Clinic> clinics) {
+        this.clinics = clinics;
+    }
+
+        
 }

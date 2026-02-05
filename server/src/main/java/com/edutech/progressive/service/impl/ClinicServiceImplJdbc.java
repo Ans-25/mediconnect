@@ -1,6 +1,7 @@
 package com.edutech.progressive.service.impl;
 
 
+import java.sql.SQLException;
 import java.util.List;
 
 import com.edutech.progressive.dao.ClinicDAOImpl;
@@ -9,36 +10,62 @@ import com.edutech.progressive.service.ClinicService;
 
 public class ClinicServiceImplJdbc implements ClinicService{
 
-    ClinicDAOImpl cd;
+    private ClinicDAOImpl cd;
 
     public ClinicServiceImplJdbc(ClinicDAOImpl cd) {
         this.cd = cd;
     }
 
     @Override
-    public List<Clinic> getAllClinics() {
-        return cd.getAllClinics();
+    public List<Clinic> getAllClinics(){
+        try {
+            return cd.getAllClinics();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return null;
     }
 
     @Override
     public Clinic getClinicById(int clinicId) {
-        
-        return cd.getClinicById(clinicId);
+        try {
+            return cd.getClinicById(clinicId);
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            System.out.println(e);
+        }
+        return null;
     }
 
     @Override
     public Integer addClinic(Clinic clinic) {
-        return cd.addClinic(clinic);
+        try {
+            return cd.addClinic(clinic);
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            System.out.println(e);
+        }
+        return null;
     }
 
     @Override
     public void updateClinic(Clinic clinic) {
-        cd.updateClinic(clinic);
+        try {
+            cd.updateClinic(clinic);
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            System.out.println(e);
+        }
     }
 
     @Override
     public void deleteClinic(int clinicId) {
-        cd.deleteClinic(clinicId);
+        try {
+            cd.deleteClinic(clinicId);
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            System.out.println(e);
+        }
     }
 
 }

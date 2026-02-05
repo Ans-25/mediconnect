@@ -1,15 +1,12 @@
 package com.edutech.progressive.config;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -37,7 +34,7 @@ public class DatabaseConnectionManager {
             loadProperties();
         } catch (IOException e) {
             // TODO Auto-generated catch block
-            e.printStackTrace();
+            System.out.println(e);
         }
         return DriverManager.getConnection(properties.getProperty("spring.datasource.url"),
         properties.getProperty("spring.datasource.username"), 

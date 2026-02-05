@@ -1,15 +1,41 @@
 package com.edutech.progressive.entity;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+
+import org.hibernate.annotations.ManyToAny;
+@Entity
 public class Clinic {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int clinicId;
     private String clinicName;
     private String location;
+    // @Column(name = "doctor_id")
     private int doctorId;
     private String contactNumber;
     private int establishedYear;
 
+    @ManyToOne()
+    @JoinColumn(name = "doctor_id", insertable = false, updatable = false)
+    private Doctor doctor;
+
     public Clinic() {
+    }
+
+    public Clinic(String clinicName, String location, int doctorId, String contactNumber, int establishedYear) {
+        this.clinicName = clinicName;
+        this.location = location;
+        this.doctorId = doctorId;
+        this.contactNumber = contactNumber;
+        this.establishedYear = establishedYear;
     }
 
     public Clinic(int clinicId, String clinicName, String location, int doctorId, String contactNumber,
@@ -69,5 +95,15 @@ public class Clinic {
     public void setEstablishedYear(int establishedYear) {
         this.establishedYear = establishedYear;
     }
+
+    public Doctor getDoctor() {
+        return doctor;
+    }
+
+    public void setDoctor(Doctor doctor) {
+        this.doctor = doctor;
+    }
+
+    
 
 }

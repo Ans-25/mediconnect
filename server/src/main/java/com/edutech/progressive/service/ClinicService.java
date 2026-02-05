@@ -2,11 +2,12 @@ package com.edutech.progressive.service;
 
 import com.edutech.progressive.entity.Clinic;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public interface ClinicService {
 
-    public List<Clinic> getAllClinics();
+    public List<Clinic> getAllClinics() throws SQLException;
 
     public Clinic getClinicById(int clinicId);
 

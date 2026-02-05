@@ -17,14 +17,14 @@ public class ClinicDAOImpl implements ClinicDAO{
 
     public ClinicDAOImpl() {
         try {
-            this.connection = DatabaseConnectionManager.getConnection();
+            connection = DatabaseConnectionManager.getConnection();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
     @Override
-    public int addClinic(Clinic clinic) {
+    public int addClinic(Clinic clinic) throws SQLException{
          String sql = "insert into clinic(clinic_name,location,doctor_id,contact_number,established_year) values(?,?,?,?,?)";
         try(PreparedStatement ps = connection.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS)){
             
@@ -40,16 +40,13 @@ public class ClinicDAOImpl implements ClinicDAO{
             if(rs.next()){
                 clinic.setClinicId(rs.getInt(1));
             }
-            
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            return clinic.getClinicId();
         }
-        return clinic.getClinicId();
+        
     }
 
     @Override
-    public Clinic getClinicById(int clinicId) {
+    public Clinic getClinicById(int clinicId) throws SQLException{
         String sql = "select * from clinic where clinic_id = ?";
         try(PreparedStatement ps = connection.prepareStatement(sql)){
             
@@ -63,16 +60,12 @@ public class ClinicDAOImpl implements ClinicDAO{
                     rs.getString("contact_number"),  
                     rs.getInt("established_year"));
             }
-
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
         }
         return null;
     }
 
     @Override
-    public void updateClinic(Clinic clinic) {
+    public void updateClinic(Clinic clinic) throws SQLException{
         String sql = "update clinic set clinic_name =?, location =?, doctor_id = ?, contact_number =?, established_year =? where clinic_id= ?";
 
         try(PreparedStatement ps = connection.prepareStatement(sql)){
@@ -85,27 +78,21 @@ public class ClinicDAOImpl implements ClinicDAO{
             ps.setInt(6, clinic.getClinicId());
 
             ps.executeUpdate();
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
         }
     }
 
     @Override
-    public void deleteClinic(int clinicId) {
+    public void deleteClinic(int clinicId) throws SQLException{
         String sql = "delete from clinic where clinic_id= ?";
        try(PreparedStatement ps = connection.prepareStatement(sql)){
             
             ps.setInt(1, clinicId);
             ps.executeUpdate();
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
         }
     }
 
     @Override
-    public List<Clinic> getAllClinics() {
+    public List<Clinic> getAllClinics() throws SQLException{
         List<Clinic> clinicList = new ArrayList<>();
         String sql = "select * from clinic";
         try(PreparedStatement ps = connection.prepareStatement(sql)){
@@ -121,11 +108,8 @@ public class ClinicDAOImpl implements ClinicDAO{
                     
                     clinicList.add(clinic);
             }
-            
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            return clinicList;
         }
-        return clinicList;
+        
     }
 }
